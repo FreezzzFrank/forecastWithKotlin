@@ -7,6 +7,6 @@ package com.layneyiu.forecast.domain.command
  * <a href="mailto:frankyao10110@gmail.com">Contact me</a>
  * ---------------------------------------------------------
  */
-public interface Command<T> {
+interface Command<out T> {
     fun execute(): T
 }

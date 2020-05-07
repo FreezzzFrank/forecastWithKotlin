@@ -1,4 +1,4 @@
-package com.layneyiu.forecast.ui.utils
+package com.layneyiu.forecast.extensions
 
 import android.content.Context
 import android.view.View

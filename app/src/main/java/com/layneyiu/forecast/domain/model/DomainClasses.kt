@@ -8,18 +8,17 @@ package com.layneyiu.forecast.domain.model
  * ---------------------------------------------------------
  */
 data class ForecastList(
-    val city: String,
-    val country: String,
+    val id: Long, val city: String, val country: String,
     val dailyForecastList: List<Forecast>
 ) {
-    operator fun get(position: Int): Forecast = dailyForecastList[position]
-    fun size(): Int = dailyForecastList.size
+
+    val size: Int get() = dailyForecastList.size
+
+    operator fun get(position: Int) = dailyForecastList[position]
 }
 
 data class Forecast(
-    val date: String,
-    val description: String,
-    val high: Int,
-    val low: Int,
+    val date: Long, val description: String,
+    val high: Int, val low: Int,
     val iconUrl: String
 )

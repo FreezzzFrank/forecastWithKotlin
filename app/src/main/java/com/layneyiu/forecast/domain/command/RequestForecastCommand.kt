@@ -1,7 +1,6 @@
 package com.layneyiu.forecast.domain.command
 
-import com.layneyiu.forecast.data.ForecastRequest
-import com.layneyiu.forecast.domain.mappers.ForecastDataMapper
+import com.layneyiu.forecast.domain.datasource.ForecastProvider
 import com.layneyiu.forecast.domain.model.ForecastList
 
 /**
@@ -12,9 +11,15 @@ import com.layneyiu.forecast.domain.model.ForecastList
  * ---------------------------------------------------------
  */
 
-class RequestForecastCommand(private val zipCode: String) :Command<ForecastList> {
-    override fun execute(): ForecastList {
-        val forecastRequest = ForecastRequest(zipCode)
-        return ForecastDataMapper().convertFromDataModel(forecastRequest.execute())
+class RequestForecastCommand(
+    private val zipCode: Long,
+    private val forecastProvider: ForecastProvider = ForecastProvider()
+) : Command<ForecastList> {
+
+    companion object {
+        const val DAYS = 7
     }
+
+    override fun execute(): ForecastList = forecastProvider.requestByZipCode(zipCode, DAYS)
+
 }

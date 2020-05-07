@@ -1,4 +1,4 @@
-package com.layneyiu.forecast.data
+package com.layneyiu.forecast.data.server
 
 import android.util.Log
 import com.google.gson.Gson
@@ -11,12 +11,12 @@ import java.net.URL
  * <a href="mailto:frankyao10110@gmail.com">Contact me</a>
  * ---------------------------------------------------------
  */
-class ForecastRequest(private val zipCode: String) {
+class ForecastByZipCodeRequest(private val zipCode: Long) {
     companion object {
-        private val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
-        private val URL =
+        private const val APP_ID = "15646a06818f61f7b8d7823ca833e1ce"
+        private const val URL =
             "http://api.openweathermap.org/data/2.5/forecast/daily?mode=json&units=metric&cnt=7"
-        private val COMPLETE_URL = "$URL&APPID=$APP_ID&q="
+        private const val COMPLETE_URL = "$URL&APPID=$APP_ID&zip="
     }
 
     fun execute(): ForecastResult {

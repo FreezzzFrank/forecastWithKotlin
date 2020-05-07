@@ -19,11 +19,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         forecastList.layoutManager = LinearLayoutManager(this)
         doAsync {
-            val result = RequestForecastCommand("94043").execute()
+            val result = RequestForecastCommand(94043).execute()
             uiThread {
                 forecastList.adapter =
                     ForecastListAdapter(result) {
-                        toast(it.date)
+                        toast(it.date.toString())
                     }
                 Log.d(javaClass.simpleName, "Result: $result")
             }

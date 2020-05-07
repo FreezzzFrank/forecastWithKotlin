@@ -1,7 +1,7 @@
 package com.layneyiu.forecast
 
 import android.app.Application
-import com.layneyiu.forecast.ui.utils.DelegateExt
+import com.layneyiu.forecast.extensions.DelegateExt
 
 /**
  * ---------------------------------------------------------

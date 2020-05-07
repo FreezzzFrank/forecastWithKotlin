@@ -17,14 +17,14 @@ class ForecastDbHelper(ctx: Context = App.instance) : ManagedSQLiteOpenHelper(ct
     companion object {
         const val DB_NAME = "forecast.db"
         const val DB_VERSION = 1
-        val instance by lazy { ForecastDbHelper }
+        val instance by lazy { ForecastDbHelper() }
     }
 
     override fun onCreate(db: SQLiteDatabase) {
-        db.createTable(CityForecastTabel.NAME, true,
-        CityForecastTabel.ID to INTEGER + PRIMARY_KEY,
-        CityForecastTabel.CITY to TEXT,
-        CityForecastTabel.COUNTRY to TEXT)
+        db.createTable(CityForecastTable.NAME, true,
+        CityForecastTable.ID to INTEGER + PRIMARY_KEY,
+        CityForecastTable.CITY to TEXT,
+        CityForecastTable.COUNTRY to TEXT)
 
         db.createTable(DayForecastTable.NAME, true,
         DayForecastTable.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
@@ -37,7 +37,7 @@ class ForecastDbHelper(ctx: Context = App.instance) : ManagedSQLiteOpenHelper(ct
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.dropTable(CityForecastTabel.NAME, true)
+        db.dropTable(CityForecastTable.NAME, true)
         db.dropTable(DayForecastTable.NAME, true)
         onCreate(db)
     }

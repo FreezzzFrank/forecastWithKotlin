@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.layneyiu.forecast.R
 import com.layneyiu.forecast.domain.model.Forecast
 import com.layneyiu.forecast.domain.model.ForecastList
-import com.layneyiu.forecast.ui.utils.ctx
+import com.layneyiu.forecast.extensions.ctx
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.forecast_list_item.view.*
+import java.text.DateFormat
+import java.util.*
 
 /**
  * ---------------------------------------------------------
@@ -33,7 +35,7 @@ class ForecastListAdapter(
         return ViewHolder(view, itemClick)
     }
 
-    override fun getItemCount(): Int = weekForecast.size()
+    override fun getItemCount(): Int = weekForecast.size
 }
 
 class ViewHolder(override val containerView: View, val itemClick: (Forecast) -> Unit) :
@@ -41,12 +43,18 @@ class ViewHolder(override val containerView: View, val itemClick: (Forecast) -> 
 
     fun bindForecast(forecast: Forecast) {
         with(forecast) {
-            itemView.dateText.text = date
+            itemView.dateText.text = convertDate(date)
             itemView.descriptionText.text = description
             itemView.maxTemperature.text = "${high}º"
             itemView.minTemperature.text = "${low}º"
+
             itemView.setOnClickListener { itemClick(forecast) }
         }
+    }
+
+    private fun convertDate(date: Long) : String {
+        val df = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
+        return df.format(date)
     }
 
 }

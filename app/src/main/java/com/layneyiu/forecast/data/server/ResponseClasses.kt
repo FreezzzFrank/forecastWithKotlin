@@ -1,4 +1,4 @@
-package com.layneyiu.forecast.data
+package com.layneyiu.forecast.data.server
 
 /**
  * ---------------------------------------------------------

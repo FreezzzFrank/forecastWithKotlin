@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -27,6 +28,9 @@ android {
         }
     }
 
+    kapt {
+        generateStubs = true
+    }
 }
 
 dependencies {
@@ -44,6 +48,7 @@ dependencies {
     implementation "org.jetbrains.anko:anko-sqlite:$anko_version"
 
     implementation "com.google.code.gson:gson:$gson_version"
+//    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
