@@ -1,11 +1,9 @@
 package com.layneyiu.forecast.data.db
 
 import com.layneyiu.forecast.domain.datasource.ForecastDataSource
+import com.layneyiu.forecast.domain.model.Forecast
 import com.layneyiu.forecast.domain.model.ForecastList
-import com.layneyiu.forecast.extensions.clear
-import com.layneyiu.forecast.extensions.parseList
-import com.layneyiu.forecast.extensions.parseOpt
-import com.layneyiu.forecast.extensions.toVarargArray
+import com.layneyiu.forecast.extensions.*
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
@@ -32,6 +30,12 @@ class ForecastDb(
             .whereSimple("${CityForecastTable.ID} = ?", zipCode.toString())
             .parseOpt { CityForecast(HashMap(it), dailyForecast) }
         if (city != null) dataMapper.convertToDomain(city) else null
+    }
+
+    override fun requestDayForecast(id: Long): Forecast? = forecastDbHelper.use {
+
+        val forecast = select(DayForecastTable.NAME).byId(id).parseOpt{ DayForecast(HashMap(it)) }
+        if (forecast != null) dataMapper.convertDayToDomain(forecast) else null
     }
 
     fun saveForecast(forecast: ForecastList) = forecastDbHelper.use {

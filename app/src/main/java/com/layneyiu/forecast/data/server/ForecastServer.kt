@@ -2,7 +2,9 @@ package com.layneyiu.forecast.data.server
 
 import com.layneyiu.forecast.data.db.ForecastDb
 import com.layneyiu.forecast.domain.datasource.ForecastDataSource
+import com.layneyiu.forecast.domain.model.Forecast
 import com.layneyiu.forecast.domain.model.ForecastList
+import java.lang.UnsupportedOperationException
 
 /**
  * ---------------------------------------------------------
@@ -22,4 +24,6 @@ class ForecastServer(
         forecastDb.saveForecast(converted)
         return forecastDb.requestForecastByZipCode(zipCode, date)
     }
+
+    override fun requestDayForecast(id: Long): Forecast? = throw UnsupportedOperationException()
 }
