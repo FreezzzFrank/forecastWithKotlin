@@ -29,13 +29,15 @@ class ForecastDb(
         val city = select(CityForecastTable.NAME)
             .whereSimple("${CityForecastTable.ID} = ?", zipCode.toString())
             .parseOpt { CityForecast(HashMap(it), dailyForecast) }
-        if (city != null) dataMapper.convertToDomain(city) else null
+//        if (city != null) dataMapper.convertToDomain(city) else null
+        city?.let { dataMapper.convertToDomain(city) }
     }
 
     override fun requestDayForecast(id: Long): Forecast? = forecastDbHelper.use {
 
         val forecast = select(DayForecastTable.NAME).byId(id).parseOpt{ DayForecast(HashMap(it)) }
-        if (forecast != null) dataMapper.convertDayToDomain(forecast) else null
+//        if (forecast != null) dataMapper.convertDayToDomain(forecast) else null
+        forecast?.let { dataMapper.convertDayToDomain(forecast) }
     }
 
     fun saveForecast(forecast: ForecastList) = forecastDbHelper.use {

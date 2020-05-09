@@ -1,24 +1,28 @@
 package com.layneyiu.forecast.ui.activitys
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.layneyiu.forecast.R
 import com.layneyiu.forecast.domain.command.RequestForecastCommand
 import com.layneyiu.forecast.ui.adapters.ForecastListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.startActivity
-import org.jetbrains.anko.toast
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ToolbarManager {
+    override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        initToolbar()
+
         forecastList.layoutManager = LinearLayoutManager(this)
+
+        attachToScroll(forecastList)
+
         doAsync {
             val result = RequestForecastCommand(94043).execute()
             uiThread {
@@ -29,7 +33,7 @@ class MainActivity : AppCompatActivity() {
                             DetailActivity.CITY_NAME to result.city
                         )
                     }
-                Log.d(javaClass.simpleName, "Result: $result")
+                toolbarTitle = "${result.city} (${result.country})"
             }
         }
 

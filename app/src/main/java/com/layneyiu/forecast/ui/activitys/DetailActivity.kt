@@ -3,6 +3,7 @@ package com.layneyiu.forecast.ui.activitys
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import com.layneyiu.forecast.R
 import com.layneyiu.forecast.domain.command.RequestDayForecastCommand
 import com.layneyiu.forecast.domain.model.Forecast
@@ -11,10 +12,13 @@ import com.layneyiu.forecast.extensions.textColor
 import com.layneyiu.forecast.extensions.toDateString
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.find
 import org.jetbrains.anko.uiThread
 import java.text.DateFormat
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(), ToolbarManager {
+
+    override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     companion object {
         val ID = "DetailActivity:id"
@@ -25,7 +29,10 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
 
-        title = intent.getStringExtra(CITY_NAME)
+        initToolbar()
+
+        toolbarTitle = intent.getStringExtra(CITY_NAME)!!
+        enalbeHomeAsUp { onBackPressed() }
 
         doAsync {
             val result = RequestDayForecastCommand(intent.getLongExtra(ID,-1)).execute()
@@ -34,7 +41,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun bindForecast(forecast: Forecast) = with(forecast) {
-        supportActionBar?.subtitle = date.toDateString(DateFormat.FULL)
+        toolbar.subtitle = date.toDateString(DateFormat.FULL)
         weatherDescription.text = description
         bindWeather(high to maxTemperature, low to minTemperature)
     }
