@@ -8,6 +8,7 @@ import com.layneyiu.forecast.R
 import com.layneyiu.forecast.extensions.ctx
 import com.layneyiu.forecast.extensions.slideEnter
 import com.layneyiu.forecast.extensions.slideExit
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 interface ToolbarManager {
@@ -23,14 +24,14 @@ interface ToolbarManager {
         toolbar.inflateMenu(R.menu.main_menu)
         toolbar.setOnMenuItemClickListener {
             when(it.itemId) {
-                R.id.action_settings -> App.instance.toast("Setting")
+                R.id.action_settings -> toolbar.ctx.startActivity<SettingActivity>()
                 else -> App.instance.toast("No Option")
             }
             true
         }
     }
 
-    fun enalbeHomeAsUp(up: () -> Unit) {
+    fun enableHomeAsUp(up: () -> Unit) {
         toolbar.navigationIcon = createUpDrawable()
         toolbar.setNavigationOnClickListener { up() }
     }
